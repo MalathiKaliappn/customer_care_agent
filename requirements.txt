@@ -1,5 +1,15 @@
 pandas
 numpy
-docling
 streamlit
-matplotlib
+langchain-community
+langchain
+langchain_text_splitters
+langsmith
+sentence-transformers
+faiss-cpu
+langchain-mistralai
+langchain[groq]
+pypdf
+python-dotenv
+cryptography>=3.1
+langchain-huggingface
