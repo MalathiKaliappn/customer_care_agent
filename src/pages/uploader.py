@@ -1,81 +1,72 @@
-# import os
-# import streamlit as st
-# from langchain_community.document_loaders import PyPDFLoader
-# from langchain_text_splitters import RecursiveCharacterTextSplitter
-
-# from utils.embeddings import get_embeddings_model
-# from utils.vector_store import create_vector_store
-# from langchain.docstore.document import Document
-
-# # Streamlit UI
-# st.set_page_config(page_title="Tesla Manual Assistant", layout="wide")
-# st.title("📘 Tesla Manual Assistant")
-# st.markdown("Upload a Tesla Model owner's manual and process it for Q&A.")
-
-# uploaded_file = st.file_uploader("Upload the Tesla Manual (PDF)", type="pdf")
-
-# if uploaded_file is not None:
-#     with open("temp_manual.pdf", "wb") as f:
-#         f.write(uploaded_file.read())
-
-#     st.success("Manual uploaded successfully. Processing...")
-
-#     # Load and process PDF
-#     loader = PyPDFLoader("temp_manual.pdf")
-#     docs = loader.load()
-#     content_pages = docs[2:]  
-
-#     # Combine all text
-#     full_text = "\n".join(doc.page_content for doc in content_pages)
-
-#     # Split text into chunks
-#     splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
-#     chunks = splitter.create_documents([full_text])
-
-#     # Generate embeddings
-#     embeddings_model = get_embeddings_model()  
-#     create_vector_store(embeddings_model, chunks)
-
-#     st.success("Document processed and FAISS index saved.")
-# else:
-#     st.info("Please upload a PDF to begin.")
+import os
+import streamlit as st
+from langchain_community.document_loaders import PyPDFLoader
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+from utils.embeddings.embeddings import get_embeddings_model  # Assuming this is where your embedding logic resides
+from utils.embeddings.vector_store import create_vector_store  # Assuming this is the function for storing embeddings
 
 def render():
-    import os
-    import streamlit as st
-    from langchain_community.document_loaders import PyPDFLoader
-    from langchain_text_splitters import RecursiveCharacterTextSplitter
-
-    from utils.rag.embeddings.embeddings import get_embeddings_model
-    from utils.rag.embeddings.vector_store import create_vector_store
-
-    st.markdown("### Step 1: Upload the PDF")
-
-    uploaded_file = st.file_uploader("Upload the PDF", type="pdf")
+    st.header("File Upload Page")
+    
+    # File uploader allowing PDF, TXT, DOCX files
+    uploaded_file = st.file_uploader("Upload your file", type=["pdf", "txt", "docx"])
 
     if uploaded_file is not None:
-        with open("temp_manual.pdf", "wb") as f:
-            f.write(uploaded_file.read())
+        st.success("File uploaded successfully!")
 
-        st.success("Manual uploaded successfully. Processing...")
+        # Process the file based on its type
+        file_extension = uploaded_file.name.split('.')[-1].lower()
 
-        # Load and process PDF
-        loader = PyPDFLoader("temp_manual.pdf")
-        docs = loader.load()
-        content_pages = docs[2:]  # Skip the first 2 pages (TOC, etc.)
+        try:
+            if file_extension == "pdf":
+                # Handle PDF File
+                st.info("Processing PDF...")
+                # Save the uploaded PDF
+                with open("temp_manual.pdf", "wb") as f:
+                    f.write(uploaded_file.read())
+                # Load and extract text from PDF
+                loader = PyPDFLoader("temp_manual.pdf")
+                docs = loader.load()
+                content_pages = docs[2:]  # Adjust the slice as needed (skip TOC)
+                full_text = "\n".join(doc.page_content for doc in content_pages)
 
-        # Combine all text
-        full_text = "\n".join(doc.page_content for doc in content_pages)
+            elif file_extension == "txt":
+                # Handle TXT File
+                st.info("Processing TXT...")
+                full_text = uploaded_file.read().decode("utf-8")
 
-        # Split text into chunks
-        splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
-        chunks = splitter.create_documents([full_text])
+            elif file_extension == "docx":
+                # Handle DOCX File
+                st.info("Processing DOCX...")
+                from docx import Document
+                doc = Document(uploaded_file)
+                full_text = "\n".join([para.text for para in doc.paragraphs])
 
-        # Generate embeddings and store
-        embeddings_model = get_embeddings_model()
-        create_vector_store(embeddings_model, chunks)
+            else:
+                st.error("Unsupported file type.")
+                return
 
-        os.remove("temp_manual.pdf")
-        st.success("Document processed and FAISS index saved.")
-    else:
-        st.info("Please upload a PDF to begin.")
+            # Split text into chunks for embedding
+            splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+            chunks = splitter.create_documents([full_text])
+
+            if not chunks or all(len(doc.page_content.strip()) == 0 for doc in chunks):
+                st.error("No valid content found in the document.")
+                return
+
+            # Generate embeddings using the embeddings model
+            embeddings_model = get_embeddings_model()
+
+            # Create the vector store with the embeddings
+            try:
+                create_vector_store(embeddings_model, chunks)
+                st.success("Document processed and FAISS index saved.")
+            except Exception as e:
+                st.error(f"Error creating vector store: {e}")
+
+            # Optionally remove the temp PDF file after processing
+            if file_extension == "pdf" and os.path.exists("temp_manual.pdf"):
+                os.remove("temp_manual.pdf")
+
+        except Exception as e:
+            st.error(f"An error occurred while processing the file: {e}")

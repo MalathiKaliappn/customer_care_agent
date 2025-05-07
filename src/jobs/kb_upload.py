@@ -1,19 +1,22 @@
 import os
+from pathlib import Path
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-from utils.rag.embeddings.embeddings import get_embeddings_model
-from utils.rag.embeddings.vector_store import create_vector_store
+from customer_care_agent.src.utils.embeddings.embeddings import get_embeddings_model
+from customer_care_agent.src.utils.embeddings.vector_store import create_vector_store
 
-# Path to the manual PDF
-PDF_PATH = "C:\Users\malat\Desktop\ML\Tesla_RAG/tesla-owner-manual.pdf"
+# Use relative path to the manual PDF
+BASE_DIR = Path(__file__).resolve().parent.parent.parent  # Adjust if needed
+PDF_PATH = BASE_DIR / "resources" / "tesla-owner-manual.pdf"
 
 def main():
-    if not os.path.exists(PDF_PATH):
+    # Check if the PDF file exists at the relative path
+    if not PDF_PATH.exists():
         raise FileNotFoundError(f"PDF not found at: {PDF_PATH}")
 
     print(f"Loading PDF from: {PDF_PATH}")
-    loader = PyPDFLoader(PDF_PATH)
+    loader = PyPDFLoader(str(PDF_PATH))
     docs = loader.load()
     content_pages = docs[2:]  # Skip TOC if desired
 

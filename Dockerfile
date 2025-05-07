@@ -9,14 +9,16 @@
 
 # CMD ["streamlit", "run", "app/main.py", "--server.port=8501", "--server.enableCORS=false"]
 
-FROM python:3.10-slim
+FROM pytorch/pytorch:2.2.2-cuda12.1-cudnn8-runtime
 
 # Set working directory
 WORKDIR /app
 
 # Copy dependencies file and install packages
 COPY requirements.txt .
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
+
 
 # Copy the entire source code into the container
 COPY . .
