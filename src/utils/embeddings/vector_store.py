@@ -19,7 +19,7 @@ def create_vector_store(embeddings, chunks, index_path="faiss_index"):
 
     try:
         vector_store.save_local(index_path)
-        print(f"✅ Vector store saved to {index_path}")
+        print(f" Vector store saved to {index_path}")
     except Exception as e:
         print(f"Error saving vector store: {e}")
         st.error(f"Failed to save vector store.\nDetails: {e}")
@@ -38,7 +38,7 @@ def load_vector_store(embeddings, index_path="faiss_index"):
     if not os.path.exists(index_file):
         raise FileNotFoundError(
             f"FAISS index not found at '{index_file}'.\n"
-            "➡️ Please run the uploader page to generate the index first."
+            "Please run the uploader page to generate the index first."
         )
 
     # Load the FAISS vector store

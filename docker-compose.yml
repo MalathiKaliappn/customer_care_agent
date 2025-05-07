@@ -36,4 +36,4 @@ services:
       - .:/app  # Mount the current directory into /app inside the container
     environment:
       - GROQ_API_KEY=${GROQ_API_KEY}  # Set the environment variable from .env file
-    command: python jobs/kb-upload.py  # Command to run the KB upload script
+    #command: python jobs/kb-upload.py  # Command to run the KB upload script

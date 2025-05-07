@@ -24,7 +24,7 @@ This is an interactive assistant that allows users to upload a PDF format and as
 1. Clone the repo:
 
 ```bash
-git clone https://github.com/MalathiKaliappn/customer_care_agent/tree/developer
+git clone https://github.com/MalathiKaliappn/customer_care_agent.git
 
 
 ### Create and activate a virtual environment
