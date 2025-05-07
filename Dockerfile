@@ -24,4 +24,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Default command for Streamlit
-CMD ["streamlit", "run", "src/pages/main.py", "--server.port=8501", "--server.enableCORS=false"]
+CMD ["streamlit", "run", "src/ui/main.py", "--server.port=8501", "--server.enableCORS=false"]
