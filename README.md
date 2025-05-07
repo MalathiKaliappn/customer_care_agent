@@ -12,6 +12,36 @@ This is an interactive assistant that allows users to upload a PDF format and as
 - Store embeddings using FAISS vector index
 - Ask questions and get accurate answers using a GROQ-hosted LLM (LLaMA 3)
 
+Project structure:
+
+customer-care-assistant/
+│
+├── src/
+│   ├── ui/
+│   │   ├── uploader.py              # File upload & preprocessing logic
+│   │   └── chatbot.py               # Chat interface (Streamlit)
+│   │
+│   └── utils/
+│       ├── embeddings/
+│       │   ├── chunker.py           # Text splitting logic
+│       │   ├── embeddings.py        # Embedding model loading
+│       │   └── vector_store.py      # FAISS index creation & queries
+│       │
+│       └── rag/
+│           ├── retriever.py         # Retrieve relevant chunks from vector DB
+│           └── generator.py         # Generate answers from LLM + retrieved context
+│
+├── resources/                       # Uploaded files (PDF, TXT, DOCX)
+├── faiss_index/                     # FAISS vector store files
+│
+├── main.py                          # Streamlit app entry point
+├── .env                             # API keys and config
+├── .gitignore
+├── README.md
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
+
 
 ### Requirements
 
