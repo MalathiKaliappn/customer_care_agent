@@ -10,7 +10,7 @@ This is an interactive assistant that allows users to upload a PDF format and as
 - Chunk the document for efficient retrieval
 - Embed chunks using Hugging Face models
 - Store embeddings using FAISS vector index
-- Ask questions and get accurate answers using a GROQ-hosted LLM (LLaMA 3)
+- Ask questions and get aeccurate answers using a GROQ-hosted LLM (LLaMA 3)
 
 Project structure:
 
@@ -42,6 +42,40 @@ customer-care-assistant/
 ├── Dockerfile
 ├── docker-compose.yml
 
+customer-care-assistant/
+│
+├── src/
+│   ├── ui/
+│   │   ├── uploader.py               # PDF upload and text extraction
+│   │   └── chatbot.py                # Streamlit chatbot interface
+│   │
+│   ├── utils/
+│   │   ├── embeddings/
+│   │   │   ├── chunker.py            # Semantic + overlapping chunking logic
+│   │   │   ├── embeddings.py         # HuggingFace or OpenAI embedding models
+│   │   │   └── vector_store.py       # FAISS index create/load/query
+│   │   │
+│   │   ├── rag/
+│   │   │   ├── retriever.py          # Hybrid retriever (semantic + keyword)
+│   │   │   └── generator.py          # LLM chain with GROQ (LLaMA 3)
+│   │   │
+│   │   ├── evaluation/
+│   │   │   ├── evaluator.py          # F1, exact match, semantic sim evaluation
+│   │   │   └── ground_truth.json     # Q/A pairs for evaluation
+│   │   │
+│   │   └── text_normalizer.py        # Text normalization for consistent evaluation
+│   │
+├── resources/                        # Uploaded PDFs, extracted text files
+├── faiss_index/                      # Stored FAISS vector stores
+│
+├── main.py                          # Streamlit app entry point
+├── evaluate.py                      # CLI evaluation script
+├── .env                            # API keys (GROQ_API_KEY, etc.)
+├── .gitignore
+├── README.md
+├── requirements.txt
+├── Dockerfile
+├── docker-compose.yml
 
 ### Requirements
 
