@@ -1,0 +1,152 @@
+[
+  {
+    "question": "How do I initiate autopilot on Tesla Model S?",
+    "ground_truth": "To initiate Autopilot, pull the cruise control stalk twice downward while driving. You may also need to enable Autosteer via Controls > Autopilot settings.",
+    "answer": "To initiate Autopilot, pull the cruise control stalk twice downward while driving.",
+    "contexts": [
+      "To initiate Autopilot, pull the cruise control stalk twice downward while driving",
+      "You may also need to enable Autosteer via Controls > Autopilot settings"
+    ]
+  },
+  {
+    "question": "How to replace the key battery?",
+    "ground_truth": "To replace the key battery, place the key button-side down and use a small flat tool to remove the bottom cover. Lift the battery from the retaining clips and insert a new CR2032 battery with the '+' side up. Align the cover tabs with the slots and press it firmly until it snaps into place. Avoid touching the flat surfaces of the battery and wipe it clean before inserting.",
+    "answer": "To replace the key battery, place the key button-side down and use a small flat tool to remove the bottom cover.",
+    "contexts": [
+      "Lift the battery from the retaining clips and insert a new CR2032 battery with the '+' side up",
+      "Avoid touching the flat surfaces of the battery and wipe it clean before inserting"
+    ]
+  },
+  {
+    "question": "How do I open the front trunk?",
+    "ground_truth": "To open the front trunk, touch Controls > Front Trunk on the touchscreen or double-click the front trunk button on the key. Pull the hood up. To close it, lower the hood fully until it touches the latches, then press down firmly with both hands on the designated areas.",
+    "answer": "To open the front trunk, touch Controls > Front Trunk on the touchscreen or double-click the front trunk button on the key.",
+    "contexts": [
+      "To close it, lower the hood fully until it touches the latches, then press down firmly with both hands on the designated areas",
+      "Pull the hood up"
+    ]
+  },
+  {
+    "question": "How do I enable child-protection locks?",
+    "ground_truth": "To enable child-protection locks, touch Controls > Settings > Vehicle > Child Protection Lock on the touchscreen. This prevents rear doors from being opened using the interior handles.",
+    "answer": "To enable child-protection locks, touch Controls > Settings > Vehicle > Child Protection Lock on the touchscreen.",
+    "contexts": [
+      "This prevents rear doors from being opened using the interior handles"
+    ]
+  },
+  {
+    "question": "What should I do if the key doesn't work?",
+    "ground_truth": "If the key doesn't work, place it near the base of the passenger side windshield wiper and press the driver's door handle. To start the car, place the key against the center console below the 12V outlet and press the brake pedal.",
+    "answer": "If the key doesn't work, place it near the base of the passenger side windshield wiper and press the driver's door handle.",
+    "contexts": [
+      "To start the car, place the key against the center console below the 12V outlet and press the brake pedal"
+    ]
+  },
+  {
+    "question": "How do I fold the rear seats?",
+    "ground_truth": "To fold a rear seat, press the corresponding lever and fold the seat forward. Remove any items and move the front seats forward if needed to allow the rear seat backs to fold completely flat.",
+    "answer": "To fold a rear seat, press the corresponding lever and fold the seat forward.",
+    "contexts": [
+      "Remove any items and move the front seats forward if needed to allow the rear seat backs to fold completely flat"
+    ]
+  },
+  {
+    "question": "How do I use the heated steering wheel?",
+    "ground_truth": "To use the heated steering wheel, touch Controls > Cold Weather > Heated Wheel. This activates a heater inside the steering wheel for warmth.",
+    "answer": "To use the heated steering wheel, touch Controls > Cold Weather > Heated Wheel.",
+    "contexts": [
+      "This activates a heater inside the steering wheel for warmth"
+    ]
+  },
+  {
+    "question": "How do I charge my Tesla Model S?",
+    "ground_truth": "To charge the Model S, open the charge port using the touchscreen or the key, then plug in the charging connector. The charge port light will change color to indicate charging status. Charging settings can be modified via the touchscreen.",
+    "answer": "To charge the Model S, open the charge port using the touchscreen or the key, then plug in the charging connector.",
+    "contexts": [
+      "The charge port light will change color to indicate charging status",
+      "Charging settings can be modified via the touchscreen"
+    ]
+  },
+  {
+    "question": "How do I open the glove box?",
+    "ground_truth": "To open the glove box, press the switch located on the side of the touchscreen. The glove box locks when the car is locked externally or when Valet mode is active.",
+    "answer": "To open the glove box, press the switch located on the side of the touchscreen.",
+    "contexts": [
+      "The glove box locks when the car is locked externally or when Valet mode is active"
+    ]
+  },
+  {
+    "question": "How do I adjust the steering wheel?",
+    "ground_truth": "Use the control on the left side of the steering column to move the steering wheel forward, backward, up, or down. Adjustments should not be made while driving.",
+    "answer": "Use the control on the left side of the steering column to move the steering wheel forward, backward, up, or down.",
+    "contexts": [
+      "Adjustments should not be made while driving"
+    ]
+  },
+  {
+    "question": "What is Valet Mode and how do I activate it?",
+    "ground_truth": "Valet Mode restricts features such as speed, glove box and trunk access, and disables Wi-Fi and Bluetooth. To activate it, touch the driver profile icon and select Valet Mode, then set a 4-digit PIN.",
+    "answer": "Valet Mode restricts features such as speed, glove box and trunk access, and disables Wi-Fi and Bluetooth.",
+    "contexts": [
+      "To activate it, touch the driver profile icon and select Valet Mode, then set a 4-digit PIN"
+    ]
+  },
+  {
+    "question": "How can I manually open the rear doors if there is no power?",
+    "ground_truth": "To open the rear doors with no power, fold back the carpet under the rear seats to reveal a mechanical release cable, then pull it toward the center of the vehicle.",
+    "answer": "To open the rear doors with no power, fold back the carpet under the rear seats to reveal a mechanical release cable.",
+    "contexts": [
+      "then pull it toward the center of the vehicle"
+    ]
+  },
+  {
+    "question": "How do I close the powered liftgate?",
+    "ground_truth": "To close the powered liftgate, press the switch on the liftgate, double-click the trunk button on the key, or use Controls > Trunk on the touchscreen.",
+    "answer": "To close the powered liftgate, press the switch on the liftgate, double-click the trunk button on the key, or use Controls > Trunk on the touchscreen.",
+    "contexts": [
+      "To close the powered liftgate, press the switch on the liftgate, double-click the trunk button on the key, or use Controls > Trunk on the touchscreen"
+    ]
+  },
+  {
+    "question": "How do I adjust the mirrors?",
+    "ground_truth": "Press the left or right mirror button, then use the dial to adjust position. Press the center button to fold/unfold the mirrors. Mirror Auto-Fold can be enabled from Controls > Settings > Vehicle.",
+    "answer": "Press the left or right mirror button, then use the dial to adjust position.",
+    "contexts": [
+      "Press the center button to fold/unfold the mirrors",
+      "Mirror Auto-Fold can be enabled from Controls > Settings > Vehicle"
+    ]
+  },
+  {
+    "question": "How do I enable Walk-Away Door Lock?",
+    "ground_truth": "To enable Walk-Away Door Lock, go to Controls > Settings > Vehicle > Walk-Away Door Lock and set it to ON. The vehicle locks automatically when you walk away with the key.",
+    "answer": "To enable Walk-Away Door Lock, go to Controls > Settings > Vehicle > Walk-Away Door Lock and set it to ON.",
+    "contexts": [
+      "The vehicle locks automatically when you walk away with the key"
+    ]
+  },
+  {
+    "question": "What is the correct driving position?",
+    "ground_truth": "Sit upright with feet on the floor and the seat back reclined no more than 30 degrees. Keep your chest at least 25 cm from the airbag, and adjust the seat so your arms are slightly bent at the wheel.",
+    "answer": "Sit upright with feet on the floor and the seat back reclined no more than 30 degrees.",
+    "contexts": [
+      "Keep your chest at least 25 cm from the airbag",
+      "adjust the seat so your arms are slightly bent at the wheel"
+    ]
+  },
+  {
+    "question": "How do I disable the front passenger airbag?",
+    "ground_truth": "Go to Controls > Settings > Safety & Security > Passenger Front Airbag. When off, the status displays in the top-right of the touchscreen.",
+    "answer": "Go to Controls > Settings > Safety & Security > Passenger Front Airbag.",
+    "contexts": [
+      "When off, the status displays in the top-right of the touchscreen"
+    ]
+  },
+  {
+    "question": "What happens when airbags inflate?",
+    "ground_truth": "When airbags inflate, they release a fine powder and deflate after deployment to cushion the impact. Doors unlock, hazard lights turn on, interior lights activate, and high voltage is disabled.",
+    "answer": "When airbags inflate, they release a fine powder and deflate after deployment to cushion the impact.",
+    "contexts": [
+      "Doors unlock, hazard lights turn on, interior lights activate, and high voltage is disabled"
+    ]
+  }
+]

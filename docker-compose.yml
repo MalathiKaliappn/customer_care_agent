@@ -1,39 +1,67 @@
 # version: '3.9'
 
 # services:
+#   # Streamlit Service
 #   streamlit:
-#     build: .
+#     build:
+#       context: .  # Build from the current directory
+#       dockerfile: Dockerfile  # Explicitly reference the Dockerfile
 #     ports:
-#       - "8501:8501"
+#       - "8501:8501"  # Expose Streamlit app on port 8501
 #     volumes:
-#       - .:/app
+#       - .:/app  # Mount the current directory into /app inside the container
 #     environment:
-#       - GROQ_API_KEY=${GROQ_API_KEY}
+#       - GROQ_API_KEY=${GROQ_API_KEY}  # Set the environment variable from .env file
+#     command: streamlit run src/main.py  # Command to run the Streamlit app
+
+#   # Knowledge Base Upload Service
+#   kb-upload:
+#     build:
+#       context: .  # Build from the current directory
+#       dockerfile: Dockerfile  # Explicitly reference the Dockerfile
+#     volumes:
+#       - .:/app  # Mount the current directory into /app inside the container
+#     environment:
+#       - GROQ_API_KEY=${GROQ_API_KEY}  # Set the environment variable from .env file
+#     #command: python jobs/kb-upload.py  # Command to run the KB upload script
 
 
 version: '3.9'
 
 services:
-  # Streamlit Service
   streamlit:
     build:
-      context: .  # Build from the current directory
-      dockerfile: Dockerfile  # Explicitly reference the Dockerfile
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "8501:8501"  # Expose Streamlit app on port 8501
+      - "8501:8501"
     volumes:
-      - .:/app  # Mount the current directory into /app inside the container
+      - .:/app
     environment:
-      - GROQ_API_KEY=${GROQ_API_KEY}  # Set the environment variable from .env file
-    command: streamlit run src/main.py  # Command to run the Streamlit app
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    command: streamlit run src/main.py --server.port=8501 --server.enableCORS=false --server.enableXsrfProtection=false
 
-  # Knowledge Base Upload Service
-  kb-upload:
+  fastapi:
     build:
-      context: .  # Build from the current directory
-      dockerfile: Dockerfile  # Explicitly reference the Dockerfile
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
     volumes:
-      - .:/app  # Mount the current directory into /app inside the container
+      - .:/app
     environment:
-      - GROQ_API_KEY=${GROQ_API_KEY}  # Set the environment variable from .env file
-    #command: python jobs/kb-upload.py  # Command to run the KB upload script
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - PYTHONPATH=/app/src
+    command: uvicorn api.fastapi_app:app --host 0.0.0.0 --port 8000 --reload
+
+  # kb-upload:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - .:/app
+  #   environment:
+  #     - GROQ_API_KEY=${GROQ_API_KEY}
+  #     - PYTHONPATH=/app/src
+  #   # Uncomment the line below if you want to upload KB on container start
+    #command: python jobs/kb-upload.py

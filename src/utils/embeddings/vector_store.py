@@ -75,25 +75,27 @@ def create_vector_store(embeddings, chunks, index_path="faiss_index"):
 
     return vector_store
 
-def load_vector_store(embeddings, index_path="faiss_index"):
+def load_vector_store(index_path="faiss_index"):
     """
-    Loads an existing FAISS vector store from disk.
-    Raises a FileNotFoundError if the index is missing.
+    Loads an existing FAISS vector store with a fresh HuggingFaceEmbeddings instance.
     """
-    # Ensure that the path is absolute
+    import os
+    from langchain_community.embeddings import HuggingFaceEmbeddings
+    from langchain_community.vectorstores import FAISS
+
     index_path = os.path.abspath(index_path)
-    
-    # Check if the FAISS index file exists
     index_file = os.path.join(index_path, "index.faiss")
+
     if not os.path.exists(index_file):
         raise FileNotFoundError(
             f"FAISS index not found at '{index_file}'.\n"
             "Please run the uploader page to generate the index first."
         )
 
-    # Load the FAISS vector store
+    # 🔁 Re-instantiate embeddings exactly as used during saving
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+
     try:
         return FAISS.load_local(index_path, embeddings, allow_dangerous_deserialization=True)
     except Exception as e:
-        print(f"Error loading vector store: {e}")
-        raise
+        raise RuntimeError(f"Failed to load FAISS vector store. Details: {e}")

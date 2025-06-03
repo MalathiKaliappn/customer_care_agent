@@ -15,4 +15,14 @@ cryptography>=3.1
 langchain-huggingface
 nltk
 transformers
-
+rouge-score
+ragas==0.1.9
+datasets
+python-multipart==0.0.6
+fastapi==0.100.0
+uvicorn[standard]==0.23.1
+pydantic==2.3.0
+python-docx
+langchain-huggingface
+langchain-groq
+faiss-cpu

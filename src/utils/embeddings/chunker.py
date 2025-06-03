@@ -130,3 +130,15 @@ class ChunkerFactory:
                 documents.append(Document(page_content=" ".join(current_chunk)))
 
         return documents
+
+
+def chunk_text(texts, method="recursive", chunk_size=500, chunk_overlap=50):
+    """
+    Simple function wrapper for chunking text using ChunkerFactory.
+    """
+    factory = ChunkerFactory(
+        method=method,
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap
+    )
+    return factory.chunk(texts)

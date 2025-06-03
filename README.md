@@ -1,81 +1,96 @@
-# Customer Care Assistant (Q&A)
+# Customer Care Assistant
 
-This is an interactive assistant that allows users to upload a PDF format and ask questions about it using natural language. The system uses **LangChain**, **FAISS**, and **Streamlit** to enable Retrieval-Augmented Generation (RAG) over the uploaded documents.
+An AI-powered assistant that enables users to upload customer care documents (PDFs), extract relevant information, and chat with a GenAI assistant grounded in those documents using a Retrieval-Augmented Generation (RAG) pipeline. Supports both a Streamlit UI and a FastAPI backend for seamless deployment and evaluation.
 
 ---
 
-## Features
+<!-- ## Features
 
 - Upload (PDF)
 - Chunk the document for efficient retrieval
 - Embed chunks using Hugging Face models
 - Store embeddings using FAISS vector index
-- Ask questions and get aeccurate answers using a GROQ-hosted LLM (LLaMA 3)
+- Ask questions and get aeccurate answers using a GROQ-hosted LLM (LLaMA 3) -->
 
 Project structure:
 
 customer-care-assistant/
 │
 ├── src/
-│   ├── ui/
-│   │   ├── uploader.py              # File upload & preprocessing logic
-│   │   └── chatbot.py               # Chat interface (Streamlit)
-│   │
-│   └── utils/
-│       ├── embeddings/
-│       │   ├── chunker.py           # Text splitting logic
-│       │   ├── embeddings.py        # Embedding model loading
-│       │   └── vector_store.py      # FAISS index creation & queries
-│       │
-│       └── rag/
-│           ├── retriever.py         # Retrieve relevant chunks from vector DB
-│           └── generator.py         # Generate answers from LLM + retrieved context
-│
-├── resources/                       # Uploaded files (PDF, TXT, DOCX)
-├── faiss_index/                     # FAISS vector store files
-│
-├── main.py                          # Streamlit app entry point
-├── .env                             # API keys and config
-├── .gitignore
-├── README.md
-├── requirements.txt
-├── Dockerfile
-├── docker-compose.yml
-
-customer-care-assistant/
-│
-├── src/
-│   ├── ui/
+│   ├── ui/                           # Streamlit UI components
 │   │   ├── uploader.py               # PDF upload and text extraction
 │   │   └── chatbot.py                # Streamlit chatbot interface
 │   │
+│   ├── api/                          # FastAPI backend
+│   │   ├── chat_router.py            # Chat endpoint for RAG
+│   │   ├── evaluate_router.py        # Evaluation API (classical + RAGAs)
+│   │   ├── upload_router.py          # Upload and text processing
+│   │   ├── health.py                 # Health check route
+│   │   └── fastapi_app.py            # FastAPI app instance
+│   │
 │   ├── utils/
 │   │   ├── embeddings/
-│   │   │   ├── chunker.py            # Semantic + overlapping chunking logic
-│   │   │   ├── embeddings.py         # HuggingFace or OpenAI embedding models
-│   │   │   └── vector_store.py       # FAISS index create/load/query
+│   │   │   ├── chunker.py            # Chunking logic
+│   │   │   ├── embeddings.py         # Embedding logic (OpenAI/HuggingFace)
+│   │   │   └── vector_store.py       # FAISS vector store logic
 │   │   │
 │   │   ├── rag/
-│   │   │   ├── retriever.py          # Hybrid retriever (semantic + keyword)
-│   │   │   └── generator.py          # LLM chain with GROQ (LLaMA 3)
+│   │   │   ├── retriever.py          # Hybrid retriever: dense + sparse
+│   │   │   └── generator.py          # Response generator using LLMs (e.g., GROQ, LLaMA 3)
 │   │   │
 │   │   ├── evaluation/
-│   │   │   ├── evaluator.py          # F1, exact match, semantic sim evaluation
-│   │   │   └── ground_truth.json     # Q/A pairs for evaluation
-│   │   │
-│   │   └── text_normalizer.py        # Text normalization for consistent evaluation
-│   │
-├── resources/                        # Uploaded PDFs, extracted text files
-├── faiss_index/                      # Stored FAISS vector stores
+│   │   │   ├── evaluator.py          # F1, EM, BLEU, ROUGE etc.
+│   │   │   ├── ragas_evaluator.py    # RAGAs metrics (faithfulness, etc.)
+│   │   │   ├── text_normalizer.py    # Normalize predictions for evaluation
+│   │   │   ├── logger.py             # Logs and results tracking
+│   │   │   ├── ground_truth.json     # Gold answers for classical eval
+│   │   │   └── ground_truth_ragas.json # Input format for RAGAs
 │
-├── main.py                          # Streamlit app entry point
-├── evaluate.py                      # CLI evaluation script
-├── .env                            # API keys (GROQ_API_KEY, etc.)
+├── resources/                        # Uploaded PDFs and extracted text
+├── faiss_index/                      # Persisted FAISS vector index
+│
+├── main.py                           # Streamlit entry point
+├── evaluate.py                       # CLI: run classical and RAGAs evaluations
+├── .env                              # API keys & config
 ├── .gitignore
 ├── README.md
-├── requirements.txt
+├── requirements.txt                  # Dependencies
 ├── Dockerfile
 ├── docker-compose.yml
+
+
+Features
+📄 PDF Upload & Parsing
+Extract text from customer care documents using PyMuPDF.
+
+🔍 Hybrid RAG Retrieval
+Combines dense (FAISS + embeddings) and sparse (keyword) retrieval.
+
+🤖 LLM-Based Response Generation
+Uses models like LLaMA 3 or GROQ to answer user queries grounded in document content.
+
+Evaluation Suite
+Supports:
+
+Classical metrics (F1, EM, ROUGE, BLEU)
+
+RAGAs metrics (faithfulness, relevance, answer correctness)
+
+FastAPI Backend
+Modular API with endpoints for:
+
+/upload – upload and index documents
+
+/chat – retrieve and generate answers
+
+/evaluate – evaluate predictions
+
+/health – service status
+
+Streamlit UI
+Upload documents, chat with the bot, visualize responses.
+
+
 
 ### Requirements
 
@@ -89,6 +104,8 @@ customer-care-assistant/
 
 ```bash
 git clone https://github.com/MalathiKaliappn/customer_care_agent.git
+cd customer-care-assistant
+pip install -r requirements.txt
 
 
 ### Create and activate a virtual environment
@@ -99,12 +116,32 @@ source venv/bin/activate  # or venv\Scripts\activate on Windows
 
 pip install -r requirements.txt
 
-### Set API Key
+### Set environment variables in .env:
 export GROQ_API_KEY=your_groq_key_here  # or use a .env file
+
+LANGSMITH_API_KEY=your_groq_key_here
+GROQ_API_KEY=your_groq_key_here
+MISTRALAI_API_KEY=your_groq_key_here
+OPENAI_API_KEY=your_groq_key_here
 
 
 ### Run the App
 streamlit run src/main.py
+
+### Run Evaluations (CLI)
+python evaluate.py --mode classical       # Classical metrics
+python evaluate.py --mode ragas           # RAGAs metrics
+python evaluate.py --mode all             # Both
+
+### Run FastAPI Server
+uvicorn src.api.fastapi_app:app --reload
+
+### Evaluation Details
+Supports two modes:
+
+Classical: F1, EM, ROUGE, BLEU
+
+RAGAs: Faithfulness, Context Precision, Context Recall, Answer Relevancy
 
 ## Run with Docker
 ### 1. Set your API key in .env
@@ -114,3 +151,4 @@ GROQ_API_KEY=your_groq_key_here
 docker-compose up --build
 
 http://localhost:8501 will launch the app
+http://localhost:8000/docs #FastAPI
